@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Depoz · Tes colis Vinted partent aujourd’hui. Pas toi.</title>
+<meta name="description" content="Un Depozeur vérifié passe chez toi dès que possible ou à l’heure de ton choix, et dépose tes colis Vinted au bon relais. 2,99 € jusqu’à 3 colis. 1er passage offert.">
+<meta property="og:title" content="Depoz · Tes colis Vinted partent aujourd’hui. Pas toi.">
+<meta property="og:description" content="Un Depozeur passe chez toi et dépose tes colis au bon relais. 1er passage offert.">
+<meta name="theme-color" content="#FFFFFF">
+<style>
+  :root { --nuit:#0B1430; --cobalt:#3B5BFF; --lime:#C6F36B; --gris:#6B7280; --bord:#ECEEF3; --fond:#F5F6F9; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif; color: var(--nuit); background: #fff; -webkit-font-smoothing: antialiased; }
+  .app { height: 100vh; height: 100dvh; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column;
+         padding: calc(14px + env(safe-area-inset-top)) 24px calc(20px + env(safe-area-inset-bottom)); }
+
+  .haut { height: 44px; display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+  .logo { font-weight: 900; font-size: 22px; letter-spacing: -.6px; }
+  .logo span { color: var(--cobalt); }
+  .retour { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--fond); color: var(--nuit); cursor: pointer; display: none; place-items: center; }
+  .barre { flex: 1; height: 4px; border-radius: 4px; background: var(--bord); overflow: hidden; display: none; }
+  .barre i { display: block; height: 100%; width: 0; background: var(--nuit); border-radius: 4px; transition: width .35s ease; }
+  .app.etapes .barre { display: block; } .app.etapes .retour { display: grid; }
+  .app.etapes .logo { display: none; }
+
+  .ecrans { position: relative; flex: 1; min-height: 0; }
+  .ecran { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; transform: translateX(28px); pointer-events: none; transition: opacity .3s ease, transform .3s ease; }
+  .ecran.avant { transform: translateX(-28px); }
+  .ecran.actif { opacity: 1; transform: none; pointer-events: auto; }
+  .centre { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+  .bas { flex: 0 0 auto; display: grid; gap: 12px; }
+
+  .badge { align-self: flex-start; background: var(--lime); font-weight: 800; font-size: 12px; letter-spacing: .4px; padding: 6px 10px; border-radius: 8px; }
+  h1 { font-size: clamp(32px, 9.5vw, 42px); line-height: 1.02; letter-spacing: -1.4px; font-weight: 900; margin: 18px 0 22px; }
+  h1 em { font-style: normal; color: var(--cobalt); }
+  h2 { font-size: clamp(26px, 7.5vw, 32px); line-height: 1.08; letter-spacing: -.9px; font-weight: 850; }
+  .aide { color: var(--gris); font-size: 15.5px; margin-top: 8px; line-height: 1.4; }
+
+  .points { display: grid; gap: 14px; }
+  .point { display: flex; gap: 14px; align-items: center; font-size: 15.5px; line-height: 1.3; }
+  .point span { flex: 0 0 38px; height: 38px; border-radius: 12px; background: var(--fond); display: grid; place-items: center; font-size: 17px; }
+  .point b { font-weight: 700; }
+
+  .btn { width: 100%; height: 58px; border: 0; border-radius: 18px; background: var(--nuit); color: #fff; font-family: inherit; font-size: 17px; font-weight: 700; cursor: pointer; transition: transform .1s, opacity .2s; }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { opacity: .35; }
+  .lien { background: none; border: 0; color: var(--gris); font-family: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer; padding: 6px; }
+  .note { text-align: center; color: var(--gris); font-size: 12.5px; }
+
+  .tuiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+  .tuile { height: 92px; border-radius: 20px; border: 1.5px solid var(--bord); background: #fff; font-family: inherit; cursor: pointer; text-align: left; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color .15s, background .15s; }
+  .tuile b { font-size: 24px; font-weight: 850; letter-spacing: -.5px; color: var(--nuit); }
+  .tuile small { font-size: 13px; color: var(--gris); }
+  .tuile.choisi { border-color: var(--nuit); background: var(--fond); }
+
+  .champ { width: 100%; margin-top: 26px; border: 0; border-bottom: 2px solid var(--bord); font-family: inherit; font-size: 32px; font-weight: 800; line-height: 1.2; letter-spacing: -.5px; padding: 8px 0; outline: none; color: var(--nuit); border-radius: 0; background: transparent; }
+  .champ:focus { border-color: var(--nuit); }
+  .champ::placeholder { color: #C9CDD6; }
+  .champ.email { font-size: 22px; font-weight: 700; }
+  .err { color: #D93025; font-size: 14px; min-height: 20px; margin-top: 10px; }
+  .piege { position: absolute; left: -5000px; }
+
+  .lignes { display: grid; gap: 0; margin-top: 22px; }
+  .ligne { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--bord); font-size: 15px; }
+  .ligne:last-child { border: 0; }
+  .ligne b { font-weight: 800; white-space: nowrap; }
+  .ligne small { display: block; color: var(--gris); font-size: 12.5px; margin-top: 2px; }
+  .garantie { margin-top: 14px; background: #EEFBF1; color: #1F5130; border-radius: 16px; padding: 12px 14px; font-size: 13.5px; line-height: 1.4; }
+
+  .rond { width: 72px; height: 72px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; font-size: 34px; margin-bottom: 22px; }
+
+  @media (max-height: 640px) {
+    h1 { margin: 12px 0 14px; } .points { gap: 9px; } .tuile { height: 76px; } .ligne { padding: 9px 0; }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="haut">
+    <div class="logo">Depo<span>z</span></div>
+    <button class="retour" id="retour" type="button" aria-label="Retour"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
+    <div class="barre" aria-hidden="true"><i id="progres"></i></div>
+  </div>
+
+  <div class="ecrans">
+    <!-- 0. Accueil -->
+    <section class="ecran actif" data-e="0">
+      <div class="centre">
+        <span class="badge">1ER PASSAGE OFFERT</span>
+        <h1>Tes colis Vinted partent <em>aujourd’hui</em>. Pas toi.</h1>
+        <div class="points">
+          <div class="point"><span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><div><b>On passe chez toi</b> dès que possible ou à l’heure de ton choix, de 8h à 21h.</div></div>
+          <div class="point"><span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><b>On dépose au bon relais</b>, tous transporteurs. Photo à l’appui.</div></div>
+          <div class="point"><span><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><div><b>2,99 € le passage</b>, jusqu’à 3 colis.</div></div>
+        </div>
+      </div>
+      <div class="bas">
+        <button class="btn" type="button" data-aller="1">Commencer</button>
+        <button class="lien" type="button" data-aller="5">Comment ça marche ?</button>
+      </div>
+    </section>
+
+    <!-- 1. Colis par semaine -->
+    <section class="ecran" data-e="1">
+      <div class="centre">
+        <h2>Tu envoies combien de colis par semaine ?</h2>
+        <div class="tuiles" id="tuiles">
+          <button class="tuile" type="button" data-v="1-2"><b>1–2</b><small>de temps en temps</small></button>
+          <button class="tuile" type="button" data-v="3-4"><b>3–4</b><small>régulièrement</small></button>
+          <button class="tuile" type="button" data-v="5-9"><b>5–9</b><small>beaucoup</small></button>
+          <button class="tuile" type="button" data-v="10+"><b>10+</b><small>je revends</small></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Code postal -->
+    <section class="ecran" data-e="2">
+      <div class="centre">
+        <h2>Tu habites où ?</h2>
+        <p class="aide">On ouvre Depoz quartier par quartier.</p>
+        <input class="champ" id="cp" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="75011" aria-label="Code postal">
+        <div class="err" id="errCp"></div>
+      </div>
+      <div class="bas"><button class="btn" type="button" id="okCp" disabled>Continuer</button></div>
+    </section>
+
+    <!-- 3. Email -->
+    <section class="ecran" data-e="3">
+      <div class="centre">
+        <h2>On te prévient à l’ouverture.</h2>
+        <p class="aide">Ton premier passage sera offert. Pas de spam, promis.</p>
+        <input class="champ email" id="email" type="email" inputmode="email" autocomplete="email" placeholder="toi@email.fr" aria-label="Email">
+        <input class="piege" type="text" id="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="err" id="errEmail"></div>
+      </div>
+      <div class="bas"><button class="btn" type="button" id="okEmail" disabled>Je m’inscris</button><p class="note">Ton email sert uniquement à te prévenir quand ton quartier ouvre. Pour le faire supprimer, réponds simplement à notre email.</p></div>
+    </section>
+
+    <!-- 4. C'est noté -->
+    <section class="ecran" data-e="4">
+      <div class="centre">
+        <div class="rond"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h2>C’est noté&nbsp;!</h2>
+        <p class="aide" id="okTxt"></p>
+      </div>
+      <div class="bas">
+        <button class="btn" type="button" id="partage">Inviter mes voisins</button>
+        <p class="note">Plus il y a d’inscrits près de chez toi, plus on ouvre vite.</p>
+      </div>
+    </section>
+
+    <!-- 5. Comment ça marche -->
+    <section class="ecran" data-e="5">
+      <div class="centre">
+        <h2>Simple comme un clic.</h2>
+        <div class="lignes">
+          <div class="ligne"><div>1. Tu réserves<small>Combien de colis, quand tu veux qu’on passe</small></div></div>
+          <div class="ligne"><div>2. Un Depozeur passe<small>Pas là ? Laisse le sac devant ta porte ou au gardien</small></div></div>
+          <div class="ligne"><div>3. C’est déposé<small>Photo du dépôt, suivi en direct</small></div></div>
+          <div class="ligne"><div>Passage, jusqu’à 3 colis</div><b>2,99 €</b></div>
+          <div class="ligne"><div>Carnet de 10 passages<small>pour ceux qui vendent chaque semaine</small></div><b>2,79 €</b></div>
+          <div class="ligne"><div>Express, dans l’heure</div><b>+3,49 €</b></div>
+        </div>
+        <div class="garantie">Pas déposé à temps ? Remboursé. Colis perdu ? Remboursé jusqu’à 100 €.</div>
+      </div>
+      <div class="bas"><button class="btn" type="button" data-aller="1">Je m’inscris</button></div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // Source de l'inscrit : ?src=flyer, ?src=facebook, ?src=tiktok…
+  var API = 'https://sxapedtdgbqxurbfisjx.supabase.co/functions/v1/inscription';
+  var q = new URLSearchParams(location.search);
+  var app = document.getElementById('app');
+  var ecrans = [].slice.call(document.querySelectorAll('.ecran'));
+  var actuel = 0, historique = [], colis = '';
+
+  function aller(n, retour) {
+    if (n === actuel) return;
+    if (!retour) historique.push(actuel);
+    var cur = ecrans[actuel], next = ecrans[n];
+    cur.classList.remove('actif');
+    cur.classList.toggle('avant', !retour);      // en avant : l'écran part à gauche ; en arrière : à droite
+    if (retour) next.classList.add('avant');      // en arrière : le nouvel écran arrive de la gauche
+    else next.classList.remove('avant');
+    next.getBoundingClientRect();
+    next.classList.add('actif');
+    actuel = n;
+    app.classList.toggle('etapes', (n >= 1 && n <= 3) || n === 5);
+    document.getElementById('progres').style.width = (n === 5 ? 0 : Math.min(n, 3) / 3 * 100) + '%';
+    var focus = n === 2 ? 'cp' : n === 3 ? 'email' : null;
+    if (focus) setTimeout(function () { document.getElementById(focus).focus(); }, 320);
+  }
+  document.querySelectorAll('[data-aller]').forEach(function (b) {
+    b.addEventListener('click', function () { aller(+b.dataset.aller); });
+  });
+  document.getElementById('retour').addEventListener('click', function () {
+    if (historique.length) aller(historique.pop(), true);
+  });
+
+  // 1. Colis : un tap suffit
+  document.getElementById('tuiles').addEventListener('click', function (e) {
+    var t = e.target.closest('.tuile'); if (!t) return;
+    [].forEach.call(this.children, function (c) { c.classList.toggle('choisi', c === t); });
+    colis = t.dataset.v;
+    setTimeout(function () { aller(2); }, 180);
+  });
+
+  // 2. Code postal
+  var cp = document.getElementById('cp'), okCp = document.getElementById('okCp');
+  cp.addEventListener('input', function () {
+    cp.value = cp.value.replace(/\D/g, '').slice(0, 5);
+    okCp.disabled = cp.value.length !== 5;
+    document.getElementById('errCp').textContent = '';
+  });
+  function validerCp() { if (/^\d{5}$/.test(cp.value)) aller(3); else document.getElementById('errCp').textContent = 'Le code postal fait 5 chiffres.'; }
+  okCp.addEventListener('click', validerCp);
+  cp.addEventListener('keydown', function (e) { if (e.key === 'Enter') validerCp(); });
+
+  // 3. Email et envoi
+  var email = document.getElementById('email'), okEmail = document.getElementById('okEmail'), errEmail = document.getElementById('errEmail');
+  var emailOk = function () { return /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(email.value.trim()); };
+  email.addEventListener('input', function () { okEmail.disabled = !emailOk(); errEmail.textContent = ''; });
+  email.addEventListener('keydown', function (e) { if (e.key === 'Enter' && emailOk()) envoyer(); });
+  okEmail.addEventListener('click', envoyer);
+
+  function envoyer() {
+    if (!emailOk()) { errEmail.textContent = 'Vérifie ton email.'; return; }
+    okEmail.disabled = true; okEmail.textContent = 'Envoi…';
+    fetch(API, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value.trim(), code_postal: cp.value, colis: colis,
+        variante: '2,99', source: q.get('src') || '', site: document.getElementById('site').value })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (x) {
+        if (!x.ok) throw new Error(x.j.error || 'Erreur');
+        var n = x.j.voisins || 1;
+        document.getElementById('okTxt').textContent = n > 1
+          ? 'Tu es le ' + n + 'e inscrit du ' + cp.value + '. On t’écrit dès que ton quartier ouvre, avec ton passage offert.'
+          : 'Tu es le premier inscrit du ' + cp.value + '. On t’écrit dès que ton quartier ouvre, avec ton passage offert.';
+        historique = [];
+        document.getElementById('retour').style.visibility = 'hidden';
+        aller(4);
+        app.classList.remove('etapes');
+      })
+      .catch(function () { errEmail.textContent = 'Oups, réessaie dans un instant.'; okEmail.disabled = false; okEmail.textContent = 'Je m’inscris'; });
+  }
+
+  // 4. Partage aux voisins (le lien garde la trace : ?src=voisin)
+  document.getElementById('partage').addEventListener('click', function () {
+    var url = location.origin + location.pathname + '?src=voisin';
+    var texte = 'Depoz récupère nos colis Vinted à la maison et les dépose au relais. 1er passage offert. Inscris-toi pour qu’ils ouvrent notre quartier :';
+    if (navigator.share) { navigator.share({ title: 'Depoz', text: texte, url: url }).catch(function () {}); }
+    else if (navigator.clipboard) { navigator.clipboard.writeText(texte + ' ' + url); this.textContent = 'Lien copié !'; }
+  });
+</script>
+</body>
+</html>
