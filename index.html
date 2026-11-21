@@ -7,81 +7,89 @@
 <meta name="description" content="Un Depozeur vérifié passe chez toi dès que possible ou à l’heure de ton choix, et dépose tes colis Vinted au bon relais. 2,99 € jusqu’à 3 colis. 1er passage offert.">
 <meta property="og:title" content="Depoz · Tes colis Vinted partent aujourd’hui. Pas toi.">
 <meta property="og:description" content="Un Depozeur passe chez toi et dépose tes colis au bon relais. 1er passage offert.">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#0B1736">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --encre:#111318; --gris:#6A6F7A; --clair:#9CA1AB; --trait:#E7E8EC; --fond:#F6F6F8; --accent:#2F4BE0; }
+  /* Charte Depoz « Nuit & Cobalt » (la même que l'app) */
+  :root { --nuit:#0B1736; --nuit2:#1B2A52; --cobalt:#3B5BFF; --lime:#C6F36B; --papier:#F4F5F9; --gris:#5B6478; --sous:#9AA6C8; --bord:#E2E5EE; --cobaltFond:#F0F3FF; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; }
-  body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--encre); background: #fff; -webkit-font-smoothing: antialiased; font-feature-settings: "cv11", "ss01"; }
+  body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--nuit); background: #fff; -webkit-font-smoothing: antialiased; transition: background .35s ease; }
+  body.sombre { background: var(--nuit); }
   .app { height: 100vh; height: 100dvh; max-width: 460px; margin: 0 auto; display: flex; flex-direction: column;
-         padding: calc(18px + env(safe-area-inset-top)) 26px calc(22px + env(safe-area-inset-bottom)); }
+         padding: calc(18px + env(safe-area-inset-top)) 24px calc(22px + env(safe-area-inset-bottom)); transition: color .35s ease; }
+  .sombre .app { color: #fff; }
 
   .haut { height: 40px; display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
-  .logo { font-weight: 600; font-size: 19px; letter-spacing: -.4px; }
-  .logo span { color: var(--accent); }
-  .retour { width: 36px; height: 36px; margin-left: -8px; border-radius: 50%; border: 0; background: transparent; color: var(--encre); cursor: pointer; display: none; place-items: center; }
-  .retour:hover { background: var(--fond); }
-  .barre { flex: 1; height: 2px; background: var(--trait); overflow: hidden; display: none; }
-  .barre i { display: block; height: 100%; width: 0; background: var(--encre); transition: width .4s ease; }
+  .logo { font-weight: 800; font-size: 21px; letter-spacing: -.6px; }
+  .logo span { color: var(--cobalt); }
+  .sombre .logo span { color: var(--lime); }
+  .retour { width: 38px; height: 38px; margin-left: -6px; border-radius: 50%; border: 0; background: var(--papier); color: var(--nuit); cursor: pointer; display: none; place-items: center; }
+  .barre { flex: 1; height: 4px; border-radius: 4px; background: var(--papier); overflow: hidden; display: none; }
+  .barre i { display: block; height: 100%; width: 0; background: var(--cobalt); border-radius: 4px; transition: width .4s ease; }
   .app.etapes .barre { display: block; } .app.etapes .retour { display: grid; }
   .app.etapes .logo { display: none; }
 
   .ecrans { position: relative; flex: 1; min-height: 0; }
-  .ecran { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; transform: translateX(16px); pointer-events: none; transition: opacity .3s ease, transform .3s ease; }
-  .ecran.avant { transform: translateX(-16px); }
+  .ecran { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; transform: translateX(18px); pointer-events: none; transition: opacity .3s ease, transform .3s ease; }
+  .ecran.avant { transform: translateX(-18px); }
   .ecran.actif { opacity: 1; transform: none; pointer-events: auto; }
   .centre { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
   .bas { flex: 0 0 auto; display: grid; gap: 10px; }
 
-  .sur-titre { font-size: 13px; font-weight: 500; color: var(--gris); letter-spacing: .1px; }
-  h1 { font-size: clamp(31px, 8.6vw, 38px); line-height: 1.08; letter-spacing: -1.1px; font-weight: 600; margin: 14px 0 30px; }
-  h1 span { color: var(--clair); }
-  h2 { font-size: clamp(24px, 6.8vw, 28px); line-height: 1.15; letter-spacing: -.7px; font-weight: 600; }
-  .aide { color: var(--gris); font-size: 15px; margin-top: 10px; line-height: 1.45; }
+  .badge { align-self: flex-start; background: var(--lime); color: var(--nuit); font-size: 11.5px; font-weight: 800; letter-spacing: .5px; padding: 5px 9px; border-radius: 7px; }
+  h1 { font-size: clamp(36px, 10.4vw, 46px); line-height: 1; letter-spacing: -1.8px; font-weight: 800; margin: 18px 0 14px; }
+  h1 span { color: var(--lime); white-space: nowrap; }
+  .intro { color: var(--sous); font-size: 16px; line-height: 1.45; margin-bottom: 26px; }
+  h2 { font-size: clamp(26px, 7.4vw, 31px); line-height: 1.1; letter-spacing: -.9px; font-weight: 800; }
+  .aide { color: var(--gris); font-size: 15.5px; margin-top: 10px; line-height: 1.45; }
+  .sombre .aide { color: var(--sous); }
 
-  .points { border-top: 1px solid var(--trait); }
-  .point { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 15px 0; border-bottom: 1px solid var(--trait); font-size: 15px; line-height: 1.35; }
-  .point small { display: block; color: var(--gris); font-size: 13.5px; margin-top: 2px; }
-  .point b { font-weight: 600; white-space: nowrap; }
+  .points { border-top: 1px solid rgba(255,255,255,.1); }
+  .point { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.1); font-size: 15.5px; font-weight: 600; line-height: 1.3; }
+  .point small { display: block; color: var(--sous); font-size: 13.5px; font-weight: 400; margin-top: 3px; }
+  .point b { font-weight: 800; font-size: 22px; letter-spacing: -.5px; white-space: nowrap; }
 
-  .btn { width: 100%; height: 54px; border: 0; border-radius: 12px; background: var(--encre); color: #fff; font-family: inherit; font-size: 16px; font-weight: 500; cursor: pointer; transition: opacity .2s, transform .1s; }
-  .btn:active { transform: scale(.99); }
+  .btn { width: 100%; height: 56px; border: 0; border-radius: 16px; background: var(--nuit); color: #fff; font-family: inherit; font-size: 16.5px; font-weight: 700; cursor: pointer; transition: opacity .2s, transform .1s, background .2s; }
+  .btn:active { transform: scale(.985); }
   .btn:disabled { opacity: .25; cursor: default; }
-  .lien { background: none; border: 0; color: var(--gris); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; padding: 6px; }
-  .lien:hover { color: var(--encre); }
-  .note { text-align: center; color: var(--clair); font-size: 12px; line-height: 1.4; }
+  .sombre .btn { background: var(--lime); color: var(--nuit); }
+  .lien { background: none; border: 0; color: var(--gris); font-family: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer; padding: 6px; }
+  .sombre .lien { color: var(--sous); }
+  .note { text-align: center; color: var(--sous); font-size: 12px; line-height: 1.4; }
 
-  .tuiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 28px; }
-  .tuile { height: 84px; border-radius: 12px; border: 1px solid var(--trait); background: #fff; font-family: inherit; cursor: pointer; text-align: left; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color .15s, background .15s; }
-  .tuile:hover { border-color: #C9CBD2; }
-  .tuile b { font-size: 20px; font-weight: 600; letter-spacing: -.3px; color: var(--encre); }
+  .tuiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+  .tuile { height: 88px; border-radius: 16px; border: 1.5px solid var(--bord); background: #fff; font-family: inherit; cursor: pointer; text-align: left; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color .15s, background .15s; }
+  .tuile b { font-size: 23px; font-weight: 800; letter-spacing: -.5px; color: var(--nuit); }
   .tuile small { font-size: 13px; color: var(--gris); }
-  .tuile.choisi { border-color: var(--encre); background: var(--fond); }
+  .tuile.choisi { border-color: var(--cobalt); background: var(--cobaltFond); }
+  .tuile.choisi b { color: var(--cobalt); }
 
-  .champ { width: 100%; margin-top: 28px; border: 0; border-bottom: 1px solid var(--trait); font-family: inherit; font-size: 28px; font-weight: 500; letter-spacing: -.5px; line-height: 1.2; padding: 10px 0; outline: none; color: var(--encre); border-radius: 0; background: transparent; transition: border-color .2s; }
-  .champ:focus { border-color: var(--encre); }
-  .champ::placeholder { color: #CDD0D6; }
-  .champ.email { font-size: 21px; }
-  .err { color: #C5221F; font-size: 13.5px; min-height: 20px; margin-top: 10px; }
+  .champ { width: 100%; margin-top: 26px; border: 0; border-bottom: 2px solid var(--bord); font-family: inherit; font-size: 32px; font-weight: 800; letter-spacing: -.8px; line-height: 1.2; padding: 8px 0; outline: none; color: var(--nuit); border-radius: 0; background: transparent; transition: border-color .2s; }
+  .champ:focus { border-color: var(--cobalt); }
+  .champ::placeholder { color: #CBD0DD; }
+  .champ.email { font-size: 22px; font-weight: 700; letter-spacing: -.3px; }
+  .err { color: #D23B3B; font-size: 13.5px; min-height: 20px; margin-top: 10px; }
   .piege { position: absolute; left: -5000px; }
 
-  .lignes { margin-top: 24px; border-top: 1px solid var(--trait); }
-  .ligne { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--trait); font-size: 14.5px; }
-  .ligne b { font-weight: 600; white-space: nowrap; }
-  .ligne small { display: block; color: var(--gris); font-size: 12.5px; margin-top: 2px; }
-  .garantie { margin-top: 16px; color: var(--gris); font-size: 13px; line-height: 1.5; }
+  .lignes { margin-top: 22px; border-top: 1px solid var(--bord); }
+  .ligne { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--bord); font-size: 15px; font-weight: 600; }
+  .ligne b { font-weight: 800; white-space: nowrap; }
+  .ligne small { display: block; color: var(--gris); font-size: 12.5px; font-weight: 400; margin-top: 2px; }
+  .ligne.fort b { background: var(--lime); padding: 3px 8px; border-radius: 7px; }
+  .garantie { margin-top: 14px; background: var(--papier); border-radius: 14px; padding: 12px 14px; color: var(--gris); font-size: 13px; line-height: 1.5; }
+  .garantie b { color: var(--nuit); font-weight: 700; }
 
-  .rond { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--trait); display: grid; place-items: center; margin-bottom: 24px; color: var(--encre); }
+  .rond { width: 64px; height: 64px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; margin-bottom: 24px; color: var(--nuit); }
 
   @media (max-height: 640px) {
-    h1 { margin: 10px 0 18px; } .point { padding: 10px 0; } .tuile { height: 70px; } .ligne { padding: 8px 0; }
+    h1 { margin: 12px 0 10px; } .intro { margin-bottom: 16px; } .point { padding: 10px 0; } .tuile { height: 72px; } .ligne { padding: 8px 0; }
   }
 </style>
 </head>
-<body>
+<body class="sombre">
 <div class="app" id="app">
   <div class="haut">
     <div class="logo">Depo<span>z</span></div>
@@ -93,12 +101,13 @@
     <!-- 0. Accueil -->
     <section class="ecran actif" data-e="0">
       <div class="centre">
-        <p class="sur-titre">Dépôt de colis Vinted, à domicile</p>
+        <span class="badge">1ER PASSAGE OFFERT</span>
         <h1>Tes colis partent aujourd’hui. <span>Pas toi.</span></h1>
+        <p class="intro">Un Depozeur vérifié récupère tes colis Vinted chez toi et les dépose au bon relais.</p>
         <div class="points">
-          <div class="point"><div>On passe chez toi<small>Dès que possible, ou à l’heure de ton choix entre 8h et 21h</small></div></div>
-          <div class="point"><div>On dépose au bon relais<small>Tous transporteurs, photo du dépôt à l’appui</small></div></div>
-          <div class="point"><div>Jusqu’à 3 colis<small>Premier passage offert</small></div><b>2,99 €</b></div>
+          <div class="point"><div>Quand tu veux<small>Dès que possible, ou à l’heure de ton choix, de 8h à 21h</small></div></div>
+          <div class="point"><div>Tous les transporteurs<small>Mondial Relay, Vinted Go, Colissimo… photo du dépôt</small></div></div>
+          <div class="point"><div>Jusqu’à 3 colis<small>par passage</small></div><b>2,99 €</b></div>
         </div>
       </div>
       <div class="bas">
@@ -146,7 +155,7 @@
     <!-- 4. C'est noté -->
     <section class="ecran" data-e="4">
       <div class="centre">
-        <div class="rond"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="rond"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h2>C’est noté&nbsp;!</h2>
         <p class="aide" id="okTxt"></p>
       </div>
@@ -165,10 +174,10 @@
           <div class="ligne"><div>2. Un Depozeur passe<small>Pas là ? Laisse le sac devant ta porte ou au gardien</small></div></div>
           <div class="ligne"><div>3. C’est déposé<small>Photo du dépôt, suivi en direct</small></div></div>
           <div class="ligne"><div>Passage, jusqu’à 3 colis</div><b>2,99 €</b></div>
-          <div class="ligne"><div>Carnet de 10 passages<small>pour ceux qui vendent chaque semaine</small></div><b>2,79 €</b></div>
+          <div class="ligne fort"><div>Carnet de 10 passages<small>pour ceux qui vendent chaque semaine</small></div><b>2,79 €</b></div>
           <div class="ligne"><div>Express, dans l’heure</div><b>+3,49 €</b></div>
         </div>
-        <p class="garantie">Garantie Depoz : passage remboursé s’il n’est pas déposé à temps, colis perdu remboursé jusqu’à 100 €.</p>
+        <p class="garantie"><b>Garantie Depoz.</b> Passage remboursé s’il n’est pas déposé à temps. Colis perdu remboursé jusqu’à 100 €.</p>
       </div>
       <div class="bas"><button class="btn" type="button" data-aller="1">Je m’inscris</button></div>
     </section>
@@ -194,6 +203,9 @@
     next.getBoundingClientRect();
     next.classList.add('actif');
     actuel = n;
+    var sombre = n === 0 || n === 4;
+    document.body.classList.toggle('sombre', sombre);
+    var tc = document.querySelector('meta[name=theme-color]'); if (tc) tc.content = sombre ? '#0B1736' : '#FFFFFF';
     app.classList.toggle('etapes', (n >= 1 && n <= 3) || n === 5);
     document.getElementById('progres').style.width = (n === 5 ? 0 : Math.min(n, 3) / 3 * 100) + '%';
     var focus = n === 2 ? 'cp' : n === 3 ? 'email' : null;
