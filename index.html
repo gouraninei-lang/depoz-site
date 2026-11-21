@@ -24,8 +24,7 @@
 
   .haut { height: 40px; display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
   .logo { font-weight: 700; font-size: 21px; letter-spacing: -.5px; }
-  .logo span { color: var(--cobalt); }
-  .sombre .logo span { color: var(--lime); }
+  .logo .mot { display: block; height: 24px; width: auto; }
   .retour { width: 38px; height: 38px; margin-left: -6px; border-radius: 50%; border: 0; background: var(--papier); color: var(--nuit); cursor: pointer; display: none; place-items: center; }
   .barre { flex: 1; height: 4px; border-radius: 4px; background: var(--papier); overflow: hidden; display: none; }
   .barre i { display: block; height: 100%; width: 0; background: var(--cobalt); border-radius: 4px; transition: width .4s ease; }
@@ -93,7 +92,7 @@
 <body>
 <div class="app" id="app">
   <div class="haut">
-    <div class="logo">Depo<span>z</span></div>
+    <div class="logo"><svg class="mot" viewBox="52 -1490 5519 1908" role="img" aria-label="depoz"><path d="M509 23C648 23 758 -40 813 -163H814V0H1155V-1490H810V-914H809C742 -1026 643 -1079 506 -1079C238 -1079 52 -853 52 -530C52 -196 232 23 509 23ZM605 -252C479 -252 401 -356 401 -530C401 -702 479 -805 605 -805C735 -805 824 -697 824 -530C824 -361 735 -252 605 -252Z" fill="#0B1736"/><path d="M1765 24C2032 24 2245 -125 2284 -338H1975C1950 -268 1878 -224 1777 -224C1641 -224 1561 -309 1557 -443H2292V-536C2292 -856 2073 -1080 1756 -1080C1443 -1080 1221 -850 1221 -528C1221 -206 1441 24 1765 24ZM1559 -649C1574 -760 1649 -826 1765 -826C1880 -826 1956 -760 1971 -649Z" fill="#0B1736"/><path d="M2354 418H2698V-157H2702C2757 -40 2861 23 3000 23C3277 23 3456 -196 3456 -530C3456 -853 3270 -1079 3003 -1079C2866 -1079 2762 -1025 2699 -918H2694V-1056H2354ZM2903 -252C2773 -252 2684 -361 2684 -530C2684 -697 2773 -805 2903 -805C3030 -805 3108 -702 3108 -530C3108 -356 3030 -252 2903 -252Z" fill="#0B1736"/><path d="M4035 24C4366 24 4590 -193 4590 -528C4590 -861 4366 -1080 4035 -1080C3704 -1080 3479 -861 3479 -528C3479 -193 3704 24 4035 24ZM4035 -250C3914 -250 3828 -349 3828 -528C3828 -706 3915 -806 4035 -806C4155 -806 4242 -706 4242 -528C4242 -349 4155 -250 4035 -250Z" fill="#C6F36B"/><path d="M4657 0H5571V-266H5072V-268L5562 -817V-1056H4657V-788H5158V-786L4657 -226Z" fill="#0B1736"/></svg></div>
     <button class="retour" id="retour" type="button" aria-label="Retour"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
     <div class="barre" aria-hidden="true"><i id="progres"></i></div>
   </div>
