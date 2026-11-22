@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Depoz · Tes colis Vinted partent aujourd’hui. Pas toi.</title>
-<meta name="description" content="Un Depozeur vérifié passe chez toi dès que possible ou à l’heure de ton choix, et dépose tes colis Vinted au bon relais. 2,99 € jusqu’à 3 colis. 1er passage offert.">
+<meta name="description" content="Un Depozeur vérifié passe chez toi dès que possible ou à l’heure de ton choix, et dépose tes colis Vinted au bon relais. 2,99 € jusqu’à 3 colis.">
 <meta property="og:title" content="Depoz · Tes colis Vinted partent aujourd’hui. Pas toi.">
-<meta property="og:description" content="Un Depozeur passe chez toi et dépose tes colis au bon relais. 1er passage offert.">
+<meta property="og:description" content="Un Depozeur passe chez toi et dépose tes colis au bon relais.">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,7 +101,7 @@
     <!-- 0. Accueil -->
     <section class="ecran actif" data-e="0">
       <div class="centre">
-        <span class="badge">1ER PASSAGE OFFERT</span>
+        <span class="badge">2,99 € LE PASSAGE</span>
         <h1>Tes colis partent aujourd’hui. <span>Pas toi.</span></h1>
         <p class="intro">Un Depozeur vérifié récupère tes colis Vinted chez toi et les dépose au bon relais.</p>
         <div class="points">
@@ -144,7 +144,7 @@
     <section class="ecran" data-e="3">
       <div class="centre">
         <h2>On te prévient à l’ouverture.</h2>
-        <p class="aide">Ton premier passage sera offert. Pas de spam, promis.</p>
+        <p class="aide">On te prévient dès que Depoz arrive chez toi. Pas de spam, promis.</p>
         <input class="champ email" id="email" type="email" inputmode="email" autocomplete="email" placeholder="toi@email.fr" aria-label="Email">
         <input class="piege" type="text" id="site" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="err" id="errEmail"></div>
@@ -256,8 +256,8 @@
         if (!x.ok) throw new Error(x.j.error || 'Erreur');
         var n = x.j.voisins || 1;
         document.getElementById('okTxt').textContent = n > 1
-          ? 'Tu es le ' + n + 'e inscrit du ' + cp.value + '. On t’écrit dès que ton quartier ouvre, avec ton passage offert.'
-          : 'Tu es le premier inscrit du ' + cp.value + '. On t’écrit dès que ton quartier ouvre, avec ton passage offert.';
+          ? 'Tu es le ' + n + 'e inscrit du ' + cp.value + '. On t’écrit dès que ton quartier ouvre.'
+          : 'Tu es le premier inscrit du ' + cp.value + '. On t’écrit dès que ton quartier ouvre.';
         historique = [];
         document.getElementById('retour').style.visibility = 'hidden';
         aller(4);
@@ -269,7 +269,7 @@
   // 4. Partage aux voisins (le lien garde la trace : ?src=voisin)
   document.getElementById('partage').addEventListener('click', function () {
     var url = location.origin + location.pathname + '?src=voisin';
-    var texte = 'Depoz récupère nos colis Vinted à la maison et les dépose au relais. 1er passage offert. Inscris-toi pour qu’ils ouvrent notre quartier :';
+    var texte = 'Depoz récupère nos colis Vinted à la maison et les dépose au relais. Inscris-toi pour qu’ils ouvrent notre quartier :';
     if (navigator.share) { navigator.share({ title: 'Depoz', text: texte, url: url }).catch(function () {}); }
     else if (navigator.clipboard) { navigator.clipboard.writeText(texte + ' ' + url); this.textContent = 'Lien copié !'; }
   });
